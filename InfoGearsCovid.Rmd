@@ -1,10 +1,13 @@
 ---
 title: "Closer look to InfoGears dataset"
 author: "Myasnik Khachkalyan"
-date: "7/13/2020"
-output: pdf_document
-header-includes:
-    - \usepackage{caption}
+date: "7/19/2020"
+output:
+  html_document:
+    df_print: paged
+knit: (function(input_file, encoding) { out_dir <- 'docs'; rmarkdown::render(input_file,
+  encoding=encoding, output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
+header-includes: \usepackage{caption}
 ---
 \captionsetup[table]{labelformat=empty}
 
@@ -67,8 +70,10 @@ As we can notice from the tables, the absolute winner is State California, and c
 As California is has the most number of observations let's see its numbers distributed in the days and month separately to have a nicer look of it. Also, fill find where was the pick in California.
 
 ```{r fig.width=4, fig.height=4}
-ggplot(california_d_m, aes(x=day)) + geom_line(aes(y=Count)) + facet_grid(.~month) + labs(title="Califirnia's observation", x='Month Days', subtitle = 'Distributed by month')
+california_d_m$month_f <- factor(california_d_m$month, levels = c('April', 'May', 'June', 'July'))
+ggplot(california_d_m, aes(x=day)) + geom_line(aes(y=Count)) + facet_grid(.~month_f) + labs(title="Califirnia's observation", x='Month Days', subtitle = 'Distributed by month')
 ```
+
 The graph might seem incomplete but its not, because the observations started in mid April and my resulted dataset has observations till mid July. From the graph we can infer that around 5-10th of July was the pick for number of observations from California. All other days have relatively similar result having numbers around 150-250.
 
 Let's see how other Top 10 states are doing. In the graph bellow will show number of observation through time for Top 10 states other than California
